@@ -1,0 +1,669 @@
+
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VíaExpress Colombia | Envíos Nacionales</title>
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial,sans-serif;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      background:#f4f7fb;
+      color:#222;
+    }
+
+    header{
+      background:linear-gradient(135deg,#0d47a1,#1976d2);
+      color:white;
+      padding:25px;
+      text-align:center;
+    }
+
+    header h1{
+      font-size:40px;
+      margin-bottom:10px;
+    }
+
+    header p{
+      font-size:18px;
+    }
+
+    nav{
+      background:#08306b;
+      padding:15px;
+      text-align:center;
+      position:sticky;
+      top:0;
+      z-index:999;
+    }
+
+    nav a{
+      color:white;
+      text-decoration:none;
+      margin:0 15px;
+      font-weight:bold;
+      transition:0.3s;
+    }
+
+    nav a:hover{
+      color:#ffcc80;
+    }
+
+    .hero{
+      padding:90px 20px;
+      text-align:center;
+      background:url('https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=1400&auto=format&fit=crop') center/cover;
+      color:white;
+      position:relative;
+    }
+
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:rgba(0,0,0,0.5);
+    }
+
+    .hero *{
+      position:relative;
+      z-index:1;
+    }
+
+    .hero h2{
+      font-size:52px;
+      margin-bottom:20px;
+      text-shadow:2px 2px 5px rgba(0,0,0,0.6);
+    }
+
+    .hero p{
+      font-size:22px;
+      margin-bottom:30px;
+    }
+
+    .btn{
+      display:inline-block;
+      padding:15px 35px;
+      background:#ff9800;
+      color:white;
+      text-decoration:none;
+      border-radius:12px;
+      font-size:18px;
+      font-weight:bold;
+      transition:0.3s;
+    }
+
+    .btn:hover{
+      background:#f57c00;
+      transform:scale(1.04);
+    }
+
+    section{
+      padding:60px 20px;
+      max-width:1200px;
+      margin:auto;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      gap:25px;
+      margin-top:40px;
+    }
+
+    .card{
+      background:white;
+      padding:30px;
+      border-radius:18px;
+      box-shadow:0 5px 15px rgba(0,0,0,0.1);
+      text-align:center;
+      transition:0.3s;
+    }
+
+    .card:hover{
+      transform:translateY(-5px);
+    }
+
+    .card h3{
+      margin-bottom:15px;
+      color:#0d47a1;
+    }
+
+    .tracking-box{
+      background:white;
+      padding:40px;
+      border-radius:20px;
+      box-shadow:0 5px 20px rgba(0,0,0,0.1);
+      text-align:center;
+      margin-top:40px;
+    }
+
+    .tracking-box input{
+      width:100%;
+      max-width:500px;
+      padding:15px;
+      border-radius:10px;
+      border:1px solid #ccc;
+      margin-bottom:20px;
+      font-size:16px;
+    }
+
+    .tracking-box button{
+      padding:15px 30px;
+      background:#1976d2;
+      border:none;
+      color:white;
+      border-radius:10px;
+      font-size:16px;
+      cursor:pointer;
+      transition:0.3s;
+    }
+
+    .tracking-box button:hover{
+      background:#1256a3;
+    }
+
+    #resultado{
+      margin-top:30px;
+      text-align:left;
+      background:#f1f5ff;
+      padding:25px;
+      border-radius:15px;
+      display:none;
+      line-height:1.9;
+    }
+
+    .historia{
+      background:white;
+      border-radius:20px;
+      padding:40px;
+      box-shadow:0 5px 20px rgba(0,0,0,0.08);
+      line-height:1.8;
+      font-size:18px;
+      margin-top:30px;
+    }
+
+    .footer-links{
+      margin-top:15px;
+    }
+
+    .footer-links a{
+      color:#ffcc80;
+      margin:0 10px;
+      cursor:pointer;
+      text-decoration:none;
+      font-weight:bold;
+    }
+
+    .footer-links a:hover{
+      text-decoration:underline;
+    }
+
+    footer{
+      background:#0d47a1;
+      color:white;
+      text-align:center;
+      padding:25px;
+      margin-top:50px;
+    }
+
+    .modal{
+      display:none;
+      position:fixed;
+      z-index:10000;
+      left:0;
+      top:0;
+      width:100%;
+      height:100%;
+      background:rgba(0,0,0,0.65);
+      justify-content:center;
+      align-items:center;
+      padding:20px;
+    }
+
+    .modal-content{
+      background:white;
+      max-width:650px;
+      width:100%;
+      border-radius:20px;
+      padding:35px;
+      position:relative;
+      animation:aparecer 0.3s ease;
+    }
+
+    .modal-content h2{
+      color:#0d47a1;
+      margin-bottom:20px;
+    }
+
+    .modal-content p{
+      line-height:1.8;
+      margin-bottom:10px;
+    }
+
+    .cerrar{
+      position:absolute;
+      right:20px;
+      top:15px;
+      font-size:30px;
+      cursor:pointer;
+      color:#555;
+    }
+
+    .cerrar:hover{
+      color:red;
+    }
+
+    @keyframes aparecer{
+      from{
+        opacity:0;
+        transform:scale(0.8);
+      }
+      to{
+        opacity:1;
+        transform:scale(1);
+      }
+    }
+
+    .whatsapp-float{
+      position:fixed;
+      width:75px;
+      height:75px;
+      bottom:25px;
+      right:25px;
+      background:#25D366;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:0 10px 25px rgba(0,0,0,0.25);
+      z-index:9999;
+      animation:whatsappPulse 2s infinite;
+    }
+
+    .whatsapp-float img{
+      width:42px;
+      height:42px;
+    }
+
+    @keyframes whatsappPulse{
+      0%{
+        transform:scale(1);
+      }
+      50%{
+        transform:scale(1.08);
+      }
+      100%{
+        transform:scale(1);
+      }
+    }
+
+    @keyframes logoFloat{
+      0%{
+        transform:translateY(0px);
+      }
+      50%{
+        transform:translateY(-10px);
+      }
+      100%{
+        transform:translateY(0px);
+      }
+    }
+
+    @media(max-width:768px){
+
+      .hero h2{
+        font-size:35px;
+      }
+
+      .hero p{
+        font-size:18px;
+      }
+
+      nav a{
+        display:inline-block;
+        margin:10px;
+      }
+
+    }
+
+  </style>
+</head>
+
+<body>
+
+<header>
+
+<div style="margin-bottom:20px;">
+
+<img src="https://i.ibb.co/8gZSmqTX/file-00000000765471f7805d170872ba2170.png"
+alt="Logo VíaExpress"
+loading="lazy"
+style="width:220px;max-width:90%;height:auto;display:block;margin:auto;object-fit:contain;background:white;padding:18px;border-radius:28px;box-shadow:0 10px 30px rgba(0,0,0,0.25);animation:logoFloat 3s ease-in-out infinite;">
+
+</div>
+
+<h1>VíaExpress</h1>
+
+<p>Soluciones rápidas y seguras de mensajería y paquetería en toda Colombia 🚚📦</p>
+
+</header>
+
+<nav>
+
+<a href="#inicio">Inicio</a>
+<a href="#servicios">Servicios</a>
+<a href="#historia">Nosotros</a>
+<a href="#rastreo">Rastrear Guía</a>
+<a href="#contacto">Contacto</a>
+
+</nav>
+
+<section class="hero" id="inicio">
+
+<h2>Envíos Nacionales en Toda Colombia</h2>
+
+<p>Rastrea tus paquetes en tiempo real con número de guía.</p>
+
+<a href="#rastreo" class="btn">Rastrear Envío</a>
+
+</section>
+
+<section id="servicios">
+
+<h2 style="text-align:center;font-size:35px;color:#0d47a1;">
+Nuestros Servicios
+</h2>
+
+<div class="cards">
+
+<div class="card">
+<h3>Envíos Express</h3>
+<p>Entregas rápidas en principales ciudades de Colombia.</p>
+</div>
+
+<div class="card">
+<h3>Seguimiento en Tiempo Real</h3>
+<p>Consulta el estado de tu paquete con tu número de guía.</p>
+</div>
+
+<div class="card">
+<h3>Cobertura Nacional</h3>
+<p>Enviamos a Bogotá, Medellín, Cali, Barranquilla y más.</p>
+</div>
+
+</div>
+
+</section>
+
+<section id="historia">
+
+<h2 style="text-align:center;font-size:35px;color:#0d47a1;">
+Nuestra Historia
+</h2>
+
+<div class="historia">
+
+<p>
+VíaExpress nació en el año <strong>2017</strong> con el objetivo de ofrecer soluciones rápidas,
+modernas y seguras para el transporte de paquetes y mensajería en Colombia.
+</p>
+
+<p>
+Actualmente contamos con cobertura nacional y un sistema moderno de rastreo de guías
+para brindar confianza y tranquilidad a nuestros clientes.
+</p>
+
+</div>
+
+</section>
+
+<section id="rastreo">
+
+<h2 style="text-align:center;font-size:35px;color:#0d47a1;">
+Rastrea Tu Envío
+</h2>
+
+<div class="tracking-box">
+
+<input type="text" id="guia" placeholder="Ingresa tu número de guía">
+
+<br>
+
+<button onclick="buscarGuia()">
+Buscar Guía
+</button>
+
+<div id="resultado"></div>
+
+</div>
+
+</section>
+
+<section id="contacto">
+
+<h2 style="text-align:center;font-size:35px;color:#0d47a1;">
+Contacto
+</h2>
+
+<div class="cards">
+
+<div class="card">
+<h3>WhatsApp</h3>
+<p>+57 3138596350</p>
+</div>
+
+<div class="card">
+<h3>Email</h3>
+<p>viaexpress@mbox.re</p>
+</div>
+
+<div class="card">
+<h3>Horario</h3>
+<p>Lunes a Sábado 8:00 AM - 6:00 PM</p>
+</div>
+
+</div>
+
+</section>
+
+<a href="https://wa.me/+573138596350"
+class="whatsapp-float"
+target="_blank">
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
+alt="WhatsApp">
+
+</a>
+
+<footer>
+
+<p>© 2026 VíaExpress Colombia - Todos los derechos reservados</p>
+
+<div class="footer-links">
+
+<a onclick="abrirModal('contactanos')">Contáctanos</a>
+
+<a onclick="abrirModal('nosotros')">Nosotros</a>
+
+<a onclick="abrirModal('privacidad')">Políticas de Privacidad</a>
+
+</div>
+
+</footer>
+
+<div class="modal" id="modal">
+
+<div class="modal-content">
+
+<span class="cerrar" onclick="cerrarModal()">&times;</span>
+
+<div id="contenidoModal"></div>
+
+</div>
+
+</div>
+
+<script>
+
+const API_URL = "https://script.google.com/macros/s/AKfycbx3dJBrLKJkak7NponIQQfRrvXIm5UeiCf4WzN90dPlMpQUjQ-c3BCtVg7HZlzQEd0sZA/exec";
+
+async function buscarGuia(){
+
+const guia = document.getElementById("guia").value.trim();
+
+const resultado = document.getElementById("resultado");
+
+if(!guia){
+
+alert("Por favor ingresa un número de guía");
+
+return;
+
+}
+
+resultado.style.display = "block";
+
+resultado.innerHTML = "Buscando información...";
+
+try{
+
+const response = await fetch(`${API_URL}?guia=${guia}`);
+
+const data = await response.json();
+
+if(data.error){
+
+resultado.innerHTML = `<strong>${data.error}</strong>`;
+
+return;
+
+}
+
+resultado.innerHTML = `
+
+<h3 style="margin-bottom:15px;color:#0d47a1;">
+Información del Envío
+</h3>
+
+<p><strong>Número de Guía:</strong> ${data.guia}</p>
+
+<p><strong>Cliente:</strong> ${data.cliente}</p>
+
+<p><strong>Ciudad Destino:</strong> ${data.destino}</p>
+
+<p><strong>Estado:</strong> ${data.estado}</p>
+
+<p><strong>Fecha:</strong> ${data.fecha}</p>
+
+<p><strong>Producto Enviado:</strong> ${data.producto}</p>
+
+<p><strong>Observaciones:</strong> ${data.observaciones}</p>
+
+`;
+
+}catch(error){
+
+resultado.innerHTML = "Error al consultar la guía";
+
+console.error(error);
+
+}
+
+}
+
+function abrirModal(tipo){
+
+const modal = document.getElementById("modal");
+
+const contenido = document.getElementById("contenidoModal");
+
+if(tipo === "contactanos"){
+
+contenido.innerHTML = `
+<h2>Contáctanos</h2>
+
+<p>Estamos disponibles para ayudarte con tus envíos y rastreos.</p>
+
+<p><strong>WhatsApp:</strong> +57 3138596350</p>
+
+<p><strong>Email:</strong> viaexpress@mbox.re</p>
+
+<p><strong>Horario:</strong> Lunes a Sábado de 8:00 AM a 6:00 PM</p>
+`;
+
+}
+
+if(tipo === "nosotros"){
+
+contenido.innerHTML = `
+<h2>Nosotros</h2>
+
+<p>
+VíaExpress es una empresa colombiana fundada en 2017 especializada en mensajería
+y paquetería nacional.
+</p>
+
+<p>
+Nuestro objetivo es ofrecer entregas rápidas, seguras y modernas en toda Colombia.
+</p>
+`;
+
+}
+
+if(tipo === "privacidad"){
+
+contenido.innerHTML = `
+<h2>Políticas de Privacidad</h2>
+
+<p>
+La información de nuestros clientes es protegida y utilizada únicamente
+para procesos logísticos y de rastreo.
+</p>
+
+<p>
+No compartimos datos personales con terceros sin autorización.
+</p>
+`;
+
+}
+
+modal.style.display = "flex";
+
+}
+
+function cerrarModal(){
+
+document.getElementById("modal").style.display = "none";
+
+}
+
+window.onclick = function(event){
+
+const modal = document.getElementById("modal");
+
+if(event.target === modal){
+
+cerrarModal();
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
